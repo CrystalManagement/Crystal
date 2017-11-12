@@ -1,0 +1,30 @@
+package com.xuhan.organization.dao;
+
+import com.xuhan.organization.domain.OrganizationVO;
+import com.xuhan.organization.domain.OrganizationVOExample;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
+
+public interface OrganizationVOMapper {
+    int countByExample(OrganizationVOExample example);
+
+    int deleteByExample(OrganizationVOExample example);
+
+    int deleteByPrimaryKey(Integer id);
+
+    int insert(OrganizationVO record);
+
+    int insertSelective(OrganizationVO record);
+
+    List<OrganizationVO> selectByExample(OrganizationVOExample example);
+
+    OrganizationVO selectByPrimaryKey(Integer id);
+
+    int updateByExampleSelective(@Param("record") OrganizationVO record, @Param("example") OrganizationVOExample example);
+
+    int updateByExample(@Param("record") OrganizationVO record, @Param("example") OrganizationVOExample example);
+
+    int updateByPrimaryKeySelective(OrganizationVO record);
+
+    int updateByPrimaryKey(OrganizationVO record);
+}

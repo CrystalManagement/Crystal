@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xuhan.service.dao.ServiceVOMapper" >
+  <resultMap id="BaseResultMap" type="com.xuhan.service.domain.ServiceVO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="order_id" property="orderId" jdbcType="INTEGER" />
+    <result column="consultant_id" property="consultantId" jdbcType="INTEGER" />
+    <result column="date" property="date" jdbcType="DATE" />
+    <result column="period" property="period" jdbcType="TINYINT" />
+    <result column="consult_type" property="consultType" jdbcType="TINYINT" />
+    <result column="price" property="price" jdbcType="INTEGER" />
+    <result column="customer_tel" property="customerTel" jdbcType="VARCHAR" />
+    <result column="customer_name" property="customerName" jdbcType="VARCHAR" />
+    <result column="problem" property="problem" jdbcType="VARCHAR" />
+    <result column="customer_gender" property="customerGender" jdbcType="BIT" />
+    <result column="consultant_name" property="consultantName" jdbcType="VARCHAR" />
+    <result column="place" property="place" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="TINYINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, order_id, consultant_id, date, period, consult_type, price, customer_tel, customer_name, 
+    problem, customer_gender, consultant_name, place, state, create_time, update_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xuhan.service.domain.ServiceVOExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from service
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null" >
+      <if test="offset != null" >
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null" >
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from service
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from service
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.xuhan.service.domain.ServiceVOExample" >
+    delete from service
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.xuhan.service.domain.ServiceVO" useGeneratedKeys="true" keyProperty="id" >
+    insert into service (id, order_id, consultant_id, 
+      date, period, consult_type, 
+      price, customer_tel, customer_name, 
+      problem, customer_gender, consultant_name, 
+      place, state, create_time, 
+      update_time)
+    values (#{id,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}, #{consultantId,jdbcType=INTEGER}, 
+      #{date,jdbcType=DATE}, #{period,jdbcType=TINYINT}, #{consultType,jdbcType=TINYINT}, 
+      #{price,jdbcType=INTEGER}, #{customerTel,jdbcType=VARCHAR}, #{customerName,jdbcType=VARCHAR}, 
+      #{problem,jdbcType=VARCHAR}, #{customerGender,jdbcType=BIT}, #{consultantName,jdbcType=VARCHAR}, 
+      #{place,jdbcType=VARCHAR}, #{state,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xuhan.service.domain.ServiceVO" useGeneratedKeys="true" keyProperty="id" >
+    insert into service
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="consultantId != null" >
+        consultant_id,
+      </if>
+      <if test="date != null" >
+        date,
+      </if>
+      <if test="period != null" >
+        period,
+      </if>
+      <if test="consultType != null" >
+        consult_type,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="customerTel != null" >
+        customer_tel,
+      </if>
+      <if test="customerName != null" >
+        customer_name,
+      </if>
+      <if test="problem != null" >
+        problem,
+      </if>
+      <if test="customerGender != null" >
+        customer_gender,
+      </if>
+      <if test="consultantName != null" >
+        consultant_name,
+      </if>
+      <if test="place != null" >
+        place,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="consultantId != null" >
+        #{consultantId,jdbcType=INTEGER},
+      </if>
+      <if test="date != null" >
+        #{date,jdbcType=DATE},
+      </if>
+      <if test="period != null" >
+        #{period,jdbcType=TINYINT},
+      </if>
+      <if test="consultType != null" >
+        #{consultType,jdbcType=TINYINT},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=INTEGER},
+      </if>
+      <if test="customerTel != null" >
+        #{customerTel,jdbcType=VARCHAR},
+      </if>
+      <if test="customerName != null" >
+        #{customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="problem != null" >
+        #{problem,jdbcType=VARCHAR},
+      </if>
+      <if test="customerGender != null" >
+        #{customerGender,jdbcType=BIT},
+      </if>
+      <if test="consultantName != null" >
+        #{consultantName,jdbcType=VARCHAR},
+      </if>
+      <if test="place != null" >
+        #{place,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xuhan.service.domain.ServiceVOExample" resultType="java.lang.Integer" >
+    select count(*) from service
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update service
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderId != null" >
+        order_id = #{record.orderId,jdbcType=INTEGER},
+      </if>
+      <if test="record.consultantId != null" >
+        consultant_id = #{record.consultantId,jdbcType=INTEGER},
+      </if>
+      <if test="record.date != null" >
+        date = #{record.date,jdbcType=DATE},
+      </if>
+      <if test="record.period != null" >
+        period = #{record.period,jdbcType=TINYINT},
+      </if>
+      <if test="record.consultType != null" >
+        consult_type = #{record.consultType,jdbcType=TINYINT},
+      </if>
+      <if test="record.price != null" >
+        price = #{record.price,jdbcType=INTEGER},
+      </if>
+      <if test="record.customerTel != null" >
+        customer_tel = #{record.customerTel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerName != null" >
+        customer_name = #{record.customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.problem != null" >
+        problem = #{record.problem,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerGender != null" >
+        customer_gender = #{record.customerGender,jdbcType=BIT},
+      </if>
+      <if test="record.consultantName != null" >
+        consultant_name = #{record.consultantName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.place != null" >
+        place = #{record.place,jdbcType=VARCHAR},
+      </if>
+      <if test="record.state != null" >
+        state = #{record.state,jdbcType=TINYINT},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update service
+    set id = #{record.id,jdbcType=INTEGER},
+      order_id = #{record.orderId,jdbcType=INTEGER},
+      consultant_id = #{record.consultantId,jdbcType=INTEGER},
+      date = #{record.date,jdbcType=DATE},
+      period = #{record.period,jdbcType=TINYINT},
+      consult_type = #{record.consultType,jdbcType=TINYINT},
+      price = #{record.price,jdbcType=INTEGER},
+      customer_tel = #{record.customerTel,jdbcType=VARCHAR},
+      customer_name = #{record.customerName,jdbcType=VARCHAR},
+      problem = #{record.problem,jdbcType=VARCHAR},
+      customer_gender = #{record.customerGender,jdbcType=BIT},
+      consultant_name = #{record.consultantName,jdbcType=VARCHAR},
+      place = #{record.place,jdbcType=VARCHAR},
+      state = #{record.state,jdbcType=TINYINT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xuhan.service.domain.ServiceVO" >
+    update service
+    <set >
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="consultantId != null" >
+        consultant_id = #{consultantId,jdbcType=INTEGER},
+      </if>
+      <if test="date != null" >
+        date = #{date,jdbcType=DATE},
+      </if>
+      <if test="period != null" >
+        period = #{period,jdbcType=TINYINT},
+      </if>
+      <if test="consultType != null" >
+        consult_type = #{consultType,jdbcType=TINYINT},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=INTEGER},
+      </if>
+      <if test="customerTel != null" >
+        customer_tel = #{customerTel,jdbcType=VARCHAR},
+      </if>
+      <if test="customerName != null" >
+        customer_name = #{customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="problem != null" >
+        problem = #{problem,jdbcType=VARCHAR},
+      </if>
+      <if test="customerGender != null" >
+        customer_gender = #{customerGender,jdbcType=BIT},
+      </if>
+      <if test="consultantName != null" >
+        consultant_name = #{consultantName,jdbcType=VARCHAR},
+      </if>
+      <if test="place != null" >
+        place = #{place,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xuhan.service.domain.ServiceVO" >
+    update service
+    set order_id = #{orderId,jdbcType=INTEGER},
+      consultant_id = #{consultantId,jdbcType=INTEGER},
+      date = #{date,jdbcType=DATE},
+      period = #{period,jdbcType=TINYINT},
+      consult_type = #{consultType,jdbcType=TINYINT},
+      price = #{price,jdbcType=INTEGER},
+      customer_tel = #{customerTel,jdbcType=VARCHAR},
+      customer_name = #{customerName,jdbcType=VARCHAR},
+      problem = #{problem,jdbcType=VARCHAR},
+      customer_gender = #{customerGender,jdbcType=BIT},
+      consultant_name = #{consultantName,jdbcType=VARCHAR},
+      place = #{place,jdbcType=VARCHAR},
+      state = #{state,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

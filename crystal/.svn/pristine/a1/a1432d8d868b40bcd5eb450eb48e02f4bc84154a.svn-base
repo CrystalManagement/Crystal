@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.base.role.dao.RoleVOMapperExt" >
+  <select id="ofUser" parameterType="int" resultType="com.base.role.domain.RoleVO">
+  	SELECT r.id,r.`name` FROM `staff` u
+	JOIN user_role ur ON u.id=ur.user_id
+	JOIN role r ON ur.role_id =r.id
+	WHERE u.id=#{param}
+  </select>
+  <delete id="clear" parameterType="int">
+  	DELETE FROM user_role WHERE user_role.user_id=#{param}
+  </delete>
+  <insert id="setRole">
+  	INSERT INTO user_role (user_id,role_id) VALUES
+	<foreach collection="param2" item="p" separator=",">
+		(#{param1,jdbcType=INTEGER},#{p,jdbcType=INTEGER})
+	</foreach>
+  </insert>
+</mapper>

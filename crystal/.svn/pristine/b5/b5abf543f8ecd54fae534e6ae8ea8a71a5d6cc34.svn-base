@@ -1,0 +1,30 @@
+package com.test.test.dao;
+
+import com.test.test.domain.TestVO;
+import com.test.test.domain.TestVOExample;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
+
+public interface TestVOMapper {
+    int countByExample(TestVOExample example);
+
+    int deleteByExample(TestVOExample example);
+
+    int deleteByPrimaryKey(Integer id);
+
+    int insert(TestVO record);
+
+    int insertSelective(TestVO record);
+
+    List<TestVO> selectByExample(TestVOExample example);
+
+    TestVO selectByPrimaryKey(Integer id);
+
+    int updateByExampleSelective(@Param("record") TestVO record, @Param("example") TestVOExample example);
+
+    int updateByExample(@Param("record") TestVO record, @Param("example") TestVOExample example);
+
+    int updateByPrimaryKeySelective(TestVO record);
+
+    int updateByPrimaryKey(TestVO record);
+}

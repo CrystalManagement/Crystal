@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.base.privilege.dao.PrivilegeVOExtMapper" >
+  <select id="testRelated" resultType="int">
+  	SELECT COUNT(parent_id) from privilege_privilege WHERE parent_id=#{param1,jdbcType=INTEGER} AND child_id=#{param2,jdbcType=INTEGER}
+  </select>
+  <insert id="attach">
+  	INSERT INTO privilege_privilege VALUES(#{param1,jdbcType=INTEGER},#{param2,jdbcType=INTEGER})
+  </insert>
+  <resultMap type="com.base.privilege.domain.PrivilegeVOExt" id="privilegeTree">
+  	<id column="id" property="id"/>
+  	<result column="name" property="name"/>
+  	<collection property="children" ofType="com.base.privilege.domain.PrivilegeVO">
+  		<id column="cid" property="id"/>
+  		<result column="cname" property="name"/>
+  	</collection>
+  </resultMap>
+  <select id="getEntireTree" resultMap="privilegeTree">
+	SELECT
+	p.id,
+	p.`name`,
+	c.id AS cid,
+	c.`name` AS cname
+	FROM privilege p
+	LEFT JOIN privilege_privilege pp ON p.id = pp.parent_id
+	LEFT JOIN privilege c ON c.id = pp.child_id
+	WHERE LENGTH(p.link) > 0
+  </select>
+  <select id="getMenuedTree" resultMap="privilegeTree">
+	SELECT
+	p.id,
+	p.`name`,
+	c.id AS cid,
+	c.`name` AS cname
+	FROM menu m JOIN privilege p ON m.privilege_id=p.id
+	LEFT JOIN privilege_privilege pp ON p.id = pp.parent_id
+	LEFT JOIN privilege c ON c.id = pp.child_id
+	WHERE LENGTH(p.link) > 0
+  </select>
+  <select id="getAuthorized" resultType="int" parameterType="int">
+	SELECT
+	p.id
+	FROM role r
+	LEFT JOIN role_privilege rp ON r.id = rp.role_id
+	LEFT JOIN privilege p ON p.id = rp.privilege_id
+	WHERE r.id=#{roleiId,jdbcType=INTEGER}
+  </select>
+  <delete id="clear" parameterType="int">
+	DELETE FROM role_privilege WHERE role_privilege.role_id=#{roleId,jdbcType=INTEGER}
+  </delete>
+  <insert id="authorize">
+	INSERT INTO role_privilege values
+	<foreach collection="param2" item="p" separator=",">
+		(#{param1,jdbcType=INTEGER},#{p,jdbcType=INTEGER})
+	</foreach>
+  </insert>
+  <select id="of" parameterType="int" resultType="string">
+  	SELECT DISTINCT p.class_path
+	FROM `staff` u
+	JOIN user_role ur ON u.id=ur.user_id
+	JOIN role ON ur.role_id=role.id
+	JOIN role_privilege rp ON role.id=rp.role_id
+	JOIN privilege p ON rp.privilege_id=p.id
+	WHERE u.id=#{userId,jdbcType=INTEGER}
+  </select>
+</mapper>

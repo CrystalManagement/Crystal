@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.base.menu.dao.MenuVOExtMapper" >
+  <resultMap type="com.base.menu.domain.MenuVOExt" id="entireTree">
+  	<id column="id" property="id"/>
+  	<result column="name" property="name"/>
+  	<result column="icon" property="icon"/>
+  	<result column="privilege_id" property="privilegeId"/>
+  	<collection property="submenu"  ofType="com.base.menu.domain.MenuVO">
+  		<id column="sid" property="id"/>
+  		<result column="sname" property="name"/>
+  		<result column="spid" property="privilegeId"/>
+  	</collection>
+  </resultMap>
+  <select id="getEntireTree" resultMap="entireTree">
+  	SELECT p.id,p.`name`,p.privilege_id,p.icon,
+	c.id AS sid,c.`name` AS sname,c.privilege_id AS spid
+  	FROM menu p LEFT JOIN menu c on p.id=c.parent_id
+  	WHERE p.parent_id=0 or p.parent_id=p.id ORDER BY p.id,c.id
+  </select>
+  <resultMap type="com.base.menu.domain.MenuVOExt" id="menuTree">
+  	<result column="pname" property="name"/>
+  	<result column="icon" property="icon"/>
+  	<result column="parent_id" property="parentId"/>
+  	<collection property="submenu" ofType="com.base.menu.domain.MenuVO">
+	  	<result column="link" property="link"/>
+  		<result column="name" property="name"/>
+  	</collection>
+  </resultMap>
+  <select id="getMenuTreeOf" parameterType="int" resultMap="menuTree">
+  	SELECT DISTINCT mc.`name`,p.link,mp.`name` AS pname,mp.icon,mp.parent_id
+	FROM `staff` u
+	JOIN user_role ur ON u.id=ur.role_id
+	JOIN role r ON ur.role_id=r.id
+	JOIN role_privilege rp ON r.id=rp.role_id
+	JOIN privilege p ON rp.privilege_id=p.id
+	JOIN menu mc ON p.id=mc.privilege_id
+	JOIN menu mp ON mp.id=mc.parent_id
+	WHERE u.id=#{param1,jdbcType=INTEGER}
+	ORDER BY mp.id,mc.id
+  </select>
+</mapper>

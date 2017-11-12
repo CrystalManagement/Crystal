@@ -1,0 +1,105 @@
+package com.test.test.domain;
+
+import java.io.Serializable;
+import java.util.Date;
+
+public class TestVO implements Serializable {
+    private Integer id;
+
+    private String name;
+
+    private Short count;
+
+    private Date createTime;
+
+    private String exctraInfo;
+
+    private static final long serialVersionUID = 1L;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
+    }
+
+    public Short getCount() {
+        return count;
+    }
+
+    public void setCount(Short count) {
+        this.count = count;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getExctraInfo() {
+        return exctraInfo;
+    }
+
+    public void setExctraInfo(String exctraInfo) {
+        this.exctraInfo = exctraInfo == null ? null : exctraInfo.trim();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getClass().getSimpleName());
+        sb.append(" [");
+        sb.append("Hash = ").append(hashCode());
+        sb.append(", id=").append(id);
+        sb.append(", name=").append(name);
+        sb.append(", count=").append(count);
+        sb.append(", createTime=").append(createTime);
+        sb.append(", exctraInfo=").append(exctraInfo);
+        sb.append(", serialVersionUID=").append(serialVersionUID);
+        sb.append("]");
+        return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object that) {
+        if (this == that) {
+            return true;
+        }
+        if (that == null) {
+            return false;
+        }
+        if (getClass() != that.getClass()) {
+            return false;
+        }
+        TestVO other = (TestVO) that;
+        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
+            && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
+            && (this.getCount() == null ? other.getCount() == null : this.getCount().equals(other.getCount()))
+            && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
+            && (this.getExctraInfo() == null ? other.getExctraInfo() == null : this.getExctraInfo().equals(other.getExctraInfo()));
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
+        result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
+        result = prime * result + ((getCount() == null) ? 0 : getCount().hashCode());
+        result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
+        result = prime * result + ((getExctraInfo() == null) ? 0 : getExctraInfo().hashCode());
+        return result;
+    }
+}

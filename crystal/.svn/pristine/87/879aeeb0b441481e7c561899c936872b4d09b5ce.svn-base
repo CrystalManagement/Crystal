@@ -1,0 +1,248 @@
+package com.xuhan.service.domain;
+
+import java.io.Serializable;
+import java.util.Date;
+
+public class ServiceVO implements Serializable {
+    private Integer id;
+
+    private Integer orderId;
+
+    private Integer consultantId;
+
+    private Date date;
+
+    private Byte period;
+
+    private Byte consultType;
+
+    private Integer price;
+
+    private String customerTel;
+
+    private String customerName;
+
+    private String problem;
+
+    private Boolean customerGender;
+
+    private String consultantName;
+
+    private String place;
+
+    private Byte state;
+
+    private Date createTime;
+
+    private Date updateTime;
+
+    private static final long serialVersionUID = 1L;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Integer orderId) {
+        this.orderId = orderId;
+    }
+
+    public Integer getConsultantId() {
+        return consultantId;
+    }
+
+    public void setConsultantId(Integer consultantId) {
+        this.consultantId = consultantId;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public Byte getPeriod() {
+        return period;
+    }
+
+    public void setPeriod(Byte period) {
+        this.period = period;
+    }
+
+    public Byte getConsultType() {
+        return consultType;
+    }
+
+    public void setConsultType(Byte consultType) {
+        this.consultType = consultType;
+    }
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
+
+    public String getCustomerTel() {
+        return customerTel;
+    }
+
+    public void setCustomerTel(String customerTel) {
+        this.customerTel = customerTel == null ? null : customerTel.trim();
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName == null ? null : customerName.trim();
+    }
+
+    public String getProblem() {
+        return problem;
+    }
+
+    public void setProblem(String problem) {
+        this.problem = problem == null ? null : problem.trim();
+    }
+
+    public Boolean getCustomerGender() {
+        return customerGender;
+    }
+
+    public void setCustomerGender(Boolean customerGender) {
+        this.customerGender = customerGender;
+    }
+
+    public String getConsultantName() {
+        return consultantName;
+    }
+
+    public void setConsultantName(String consultantName) {
+        this.consultantName = consultantName == null ? null : consultantName.trim();
+    }
+
+    public String getPlace() {
+        return place;
+    }
+
+    public void setPlace(String place) {
+        this.place = place == null ? null : place.trim();
+    }
+
+    public Byte getState() {
+        return state;
+    }
+
+    public void setState(Byte state) {
+        this.state = state;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getClass().getSimpleName());
+        sb.append(" [");
+        sb.append("Hash = ").append(hashCode());
+        sb.append(", id=").append(id);
+        sb.append(", orderId=").append(orderId);
+        sb.append(", consultantId=").append(consultantId);
+        sb.append(", date=").append(date);
+        sb.append(", period=").append(period);
+        sb.append(", consultType=").append(consultType);
+        sb.append(", price=").append(price);
+        sb.append(", customerTel=").append(customerTel);
+        sb.append(", customerName=").append(customerName);
+        sb.append(", problem=").append(problem);
+        sb.append(", customerGender=").append(customerGender);
+        sb.append(", consultantName=").append(consultantName);
+        sb.append(", place=").append(place);
+        sb.append(", state=").append(state);
+        sb.append(", createTime=").append(createTime);
+        sb.append(", updateTime=").append(updateTime);
+        sb.append(", serialVersionUID=").append(serialVersionUID);
+        sb.append("]");
+        return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object that) {
+        if (this == that) {
+            return true;
+        }
+        if (that == null) {
+            return false;
+        }
+        if (getClass() != that.getClass()) {
+            return false;
+        }
+        ServiceVO other = (ServiceVO) that;
+        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
+            && (this.getOrderId() == null ? other.getOrderId() == null : this.getOrderId().equals(other.getOrderId()))
+            && (this.getConsultantId() == null ? other.getConsultantId() == null : this.getConsultantId().equals(other.getConsultantId()))
+            && (this.getDate() == null ? other.getDate() == null : this.getDate().equals(other.getDate()))
+            && (this.getPeriod() == null ? other.getPeriod() == null : this.getPeriod().equals(other.getPeriod()))
+            && (this.getConsultType() == null ? other.getConsultType() == null : this.getConsultType().equals(other.getConsultType()))
+            && (this.getPrice() == null ? other.getPrice() == null : this.getPrice().equals(other.getPrice()))
+            && (this.getCustomerTel() == null ? other.getCustomerTel() == null : this.getCustomerTel().equals(other.getCustomerTel()))
+            && (this.getCustomerName() == null ? other.getCustomerName() == null : this.getCustomerName().equals(other.getCustomerName()))
+            && (this.getProblem() == null ? other.getProblem() == null : this.getProblem().equals(other.getProblem()))
+            && (this.getCustomerGender() == null ? other.getCustomerGender() == null : this.getCustomerGender().equals(other.getCustomerGender()))
+            && (this.getConsultantName() == null ? other.getConsultantName() == null : this.getConsultantName().equals(other.getConsultantName()))
+            && (this.getPlace() == null ? other.getPlace() == null : this.getPlace().equals(other.getPlace()))
+            && (this.getState() == null ? other.getState() == null : this.getState().equals(other.getState()))
+            && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
+            && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()));
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
+        result = prime * result + ((getOrderId() == null) ? 0 : getOrderId().hashCode());
+        result = prime * result + ((getConsultantId() == null) ? 0 : getConsultantId().hashCode());
+        result = prime * result + ((getDate() == null) ? 0 : getDate().hashCode());
+        result = prime * result + ((getPeriod() == null) ? 0 : getPeriod().hashCode());
+        result = prime * result + ((getConsultType() == null) ? 0 : getConsultType().hashCode());
+        result = prime * result + ((getPrice() == null) ? 0 : getPrice().hashCode());
+        result = prime * result + ((getCustomerTel() == null) ? 0 : getCustomerTel().hashCode());
+        result = prime * result + ((getCustomerName() == null) ? 0 : getCustomerName().hashCode());
+        result = prime * result + ((getProblem() == null) ? 0 : getProblem().hashCode());
+        result = prime * result + ((getCustomerGender() == null) ? 0 : getCustomerGender().hashCode());
+        result = prime * result + ((getConsultantName() == null) ? 0 : getConsultantName().hashCode());
+        result = prime * result + ((getPlace() == null) ? 0 : getPlace().hashCode());
+        result = prime * result + ((getState() == null) ? 0 : getState().hashCode());
+        result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
+        result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
+        return result;
+    }
+}

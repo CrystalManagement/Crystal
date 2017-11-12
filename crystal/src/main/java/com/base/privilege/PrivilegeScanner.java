@@ -1,0 +1,108 @@
+package com.base.privilege;
+
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.base.common.util.AnnotationUtil;
+import com.base.privilege.annotation.Privilege;
+import com.base.privilege.dao.PrivilegeVOExtMapper;
+import com.base.privilege.dao.PrivilegeVOMapper;
+import com.base.privilege.domain.PrivilegeVO;
+import com.base.privilege.domain.PrivilegeVOExample;
+
+public class PrivilegeScanner {
+	@Autowired
+	private PrivilegeVOMapper pMapper;
+	@Autowired
+	private PrivilegeVOExtMapper pMapperExt;
+	
+//	@Autowired
+//	private MenuService service;
+	private List<PrivilegeVO> menuList = new ArrayList<>();
+	private List<PrivilegeVO> privilegeList = new ArrayList<>();
+	
+	private String[] classPath;
+	
+	public void setClassPath(String[] classPath) {
+		this.classPath = classPath;
+	}
+	//刷新数据库表中的权限
+	@PostConstruct
+	public void init() {
+		for(String s:classPath)
+			System.out.println(s);
+		List<Privilege> apList = new ArrayList<>();
+		//找出新的加入的注解的方法，加入到数据库中
+		for (Class c : AnnotationUtil.scan(classPath, Privilege.class)) {
+			Privilege anno = (Privilege) c.getAnnotation(Privilege.class);
+			String context = anno.value() + '-';
+			System.out.println(anno.value());
+			for (Method m : c.getMethods()) {
+				Privilege annoM = (Privilege) m.getAnnotation(Privilege.class);
+				if (annoM == null)
+					continue;
+				String classPath = c.getName() + ':' + m.getName();
+				String name = context + annoM.value();
+				PrivilegeVO privilege = new PrivilegeVO();
+				privilege.setClassPath(classPath);
+				privilege.setName(name);
+				if (annoM.link().length() > 0) {
+					apList.add(annoM);
+					menuList.add(privilege);
+					privilege.setLink(annoM.link());
+				}
+				privilegeList.add(privilege);
+				PrivilegeVOExample example = new PrivilegeVOExample();
+				example.createCriteria().andClassPathEqualTo(classPath);
+				List<PrivilegeVO> resultP = pMapper.selectByExample(example);
+				if (resultP.size() == 0) {
+					pMapper.insertSelective(privilege);
+				} else {
+					privilege.setId(resultP.get(0).getId());
+					pMapper.updateByPrimaryKeySelective(privilege);
+				}
+			}
+		}
+		for (int i = 0; i < apList.size(); i++) {
+			Privilege annoM = apList.get(i);
+			if (annoM.children().length > 0) {
+				PrivilegeVO menu = menuList.get(i);
+				for (String s : annoM.children()) {
+					for (PrivilegeVO p : privilegeList) {
+						if (p.getName().equals(s)) {
+							if (pMapperExt.testRelated(menu.getId(), p.getId()) == 0) {
+								pMapperExt.attach(menu.getId(), p.getId());
+							}
+							break;
+						}
+					}
+				}
+			}
+		}
+
+		printList(menuList);
+		printList(privilegeList);
+		
+//		printList(mMapperExt.getEntireTree());
+//		printList(pMapperExt.getEntireTree());
+//		printList(mMapperExt.getMenuTree("1"));
+//		printList(service.getTreeOf("1"));
+		menuList.clear();
+		privilegeList.clear();
+		menuList=null;
+		privilegeList=null;
+		classPath=null;
+	}
+
+	private void printList(List list) {
+		System.out.println("-----------------");
+		for (Object o : list) {
+			System.out.println(o);
+		}
+	}
+}

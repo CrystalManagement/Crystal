@@ -1,0 +1,9 @@
+package com.xuhan.organization.dao;
+
+import java.util.List;
+
+import com.xuhan.organization.domain.OrganizationVO;
+
+public interface OrganizationVOMapperExt {
+	List<OrganizationVO> allName();
+}

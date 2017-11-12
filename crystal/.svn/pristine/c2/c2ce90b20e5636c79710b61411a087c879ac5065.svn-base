@@ -1,0 +1,76 @@
+package com.xuhan.organization.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import com.base.common.util.SearchConditionUtils;
+import com.base.datatables.domain.DataTablesRequest;
+import com.base.datatables.domain.DataTablesResponse;
+import com.xuhan.organization.dao.OrganizationVOMapper;
+import com.xuhan.organization.dao.OrganizationVOMapperExt;
+import com.xuhan.organization.domain.OrganizationVO;
+import com.xuhan.organization.domain.OrganizationVOExample;
+
+
+@Service
+public class OrganizationServiceImp implements OrganizationService {
+	@Autowired
+	private OrganizationVOMapper mapper;
+	@Autowired
+	private OrganizationVOMapperExt mapperExt;
+	/**
+	 * 新增
+	 * @param entity
+	 * @return
+	 */
+	@Override
+	public int add(OrganizationVO entity) {
+		return mapper.insertSelective(entity);
+	}
+	/**
+	 * 删除
+	 * @param id
+	 * @return
+	 */
+	@Override
+	public int delete(Integer id) {
+		return mapper.deleteByPrimaryKey(id);
+	}
+	/**
+	 * 修改
+	 * @param entity
+	 * @return
+	 */
+	@Override
+	public int update(OrganizationVO entity) {
+		return mapper.updateByPrimaryKeySelective(entity);
+	}
+	/**
+	 * 查询
+	 * @param id
+	 * @return
+	 */
+	@Override
+	public OrganizationVO get(Integer id) {
+		return mapper.selectByPrimaryKey(id);
+	}
+
+	@Override
+	public DataTablesResponse<OrganizationVO> listByPage(DataTablesRequest request)
+			throws Throwable {
+		OrganizationVOExample example = new OrganizationVOExample();
+		DataTablesResponse<OrganizationVO> response = new DataTablesResponse<OrganizationVO>();
+		SearchConditionUtils.wrapperAndCondition(example, request);// 封装查询条件
+		response.setDraw(request.getDraw());
+		response.setRecordsTotal(mapper.countByExample(example));
+		response.setData(mapper.selectByExample(example));
+		return response;
+		
+	}
+	@Override
+	public List<OrganizationVO> allName() {
+		return mapperExt.allName();
+	}
+	
+}

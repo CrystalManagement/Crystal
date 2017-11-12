@@ -1,0 +1,44 @@
+package com.xuhan.organization.service;
+
+import java.util.List;
+
+import com.base.datatables.domain.DataTablesRequest;
+import com.base.datatables.domain.DataTablesResponse;
+import com.xuhan.organization.domain.OrganizationVO;
+
+public interface OrganizationService {
+    /**
+	 * 新增
+	 * @param entity
+	 * @return
+	 */
+	public int add(OrganizationVO entity);
+	/**
+	 * 删除
+	 * @param id
+	 * @return
+	 */
+	public int delete(Integer id);
+	/**
+	 * 修改
+	 * @param entity
+	 * @return
+	 */
+	public int update(OrganizationVO entity);
+	/**
+	 * 查询
+	 * @param id
+	 * @return
+	 */
+	public OrganizationVO get(Integer id);
+	
+	/**
+	 * 使用datatables的分页查询
+	 * @param request
+	 * @return
+	 */
+	public DataTablesResponse<OrganizationVO> listByPage(DataTablesRequest request) throws Throwable;
+	
+	List<OrganizationVO> allName();
+	
+}

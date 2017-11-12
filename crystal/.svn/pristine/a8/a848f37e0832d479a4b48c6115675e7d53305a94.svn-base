@@ -1,0 +1,30 @@
+package com.xuhan.service.dao;
+
+import com.xuhan.service.domain.ServiceVO;
+import com.xuhan.service.domain.ServiceVOExample;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
+
+public interface ServiceVOMapper {
+    int countByExample(ServiceVOExample example);
+
+    int deleteByExample(ServiceVOExample example);
+
+    int deleteByPrimaryKey(Integer id);
+
+    int insert(ServiceVO record);
+
+    int insertSelective(ServiceVO record);
+
+    List<ServiceVO> selectByExample(ServiceVOExample example);
+
+    ServiceVO selectByPrimaryKey(Integer id);
+
+    int updateByExampleSelective(@Param("record") ServiceVO record, @Param("example") ServiceVOExample example);
+
+    int updateByExample(@Param("record") ServiceVO record, @Param("example") ServiceVOExample example);
+
+    int updateByPrimaryKeySelective(ServiceVO record);
+
+    int updateByPrimaryKey(ServiceVO record);
+}

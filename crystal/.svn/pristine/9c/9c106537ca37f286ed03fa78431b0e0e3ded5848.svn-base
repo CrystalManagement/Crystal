@@ -1,0 +1,587 @@
+/*==============================================================*/
+/* DBMS name:      MySQL 5.0                                    */
+/* Created on:     2017/10/18 23:25:51                          */
+/* 备注:      咨客表新增紧急联系人信息                          */
+/*==============================================================*/
+
+
+drop table if exists article;
+
+drop table if exists article_label;
+
+drop table if exists assessment;
+
+drop table if exists authinfo;
+
+drop table if exists city;
+
+drop table if exists collection;
+
+drop table if exists comment;
+
+drop table if exists complaint;
+
+drop table if exists consultant;
+
+drop table if exists consultantchange;
+
+drop table if exists consultanttemplate;
+
+drop table if exists delaytask;
+
+drop table if exists expertarea;
+
+drop table if exists follow;
+
+drop table if exists `label`;
+
+drop table if exists notification;
+
+drop table if exists `order`;
+
+drop table if exists organization;
+
+drop table if exists orientedcrowd;
+
+drop table if exists palcetemplate;
+
+drop table if exists pastservice;
+
+drop table if exists placechange;
+
+drop table if exists placeservice;
+
+drop table if exists reply;
+
+drop table if exists room;
+
+drop table if exists service;
+
+drop table if exists servicetimerange;
+
+drop table if exists staff;
+
+drop table if exists turnover;
+
+drop table if exists user;
+
+drop table if exists wxorder;
+
+/*==============================================================*/
+/* Table: article                                               */
+/*==============================================================*/
+create table article
+(
+   id                   int not null auto_increment,
+   author_id            int,
+   author_name          varchar(10),
+   title                varchar(20),
+   content              text,
+   cover                varchar(1000),
+   views                int,
+   audit_state          tinyint,
+   createtime           timestamp,
+   updatetime           timestamp,
+   primary key (id),
+   key AK_Key_2 (author_id)
+);
+
+/*==============================================================*/
+/* Table: article_label                                         */
+/*==============================================================*/
+create table article_label
+(
+   id                   int not null auto_increment,
+   label_id             int,
+   article_id           int,
+   primary key (id),
+   key AK_Key_2 (label_id),
+   key AK_Key_3 (article_id)
+);
+
+/*==============================================================*/
+/* Table: assessment                                            */
+/*==============================================================*/
+create table assessment
+(
+   id                   int not null auto_increment,
+   author_id            int,
+   consultant_id        int,
+   service_id           int,
+   score                tinyint,
+   content              varchar(100),
+   head                 varchar(1000),
+   nickname             varchar(10),
+   consult_type         tinyint,
+   anonymous            tinyint,
+   create_time          timestamp,
+   update_time          timestamp,
+   primary key (id),
+   key AK_Key_2 (consultant_id)
+);
+
+/*==============================================================*/
+/* Table: authinfo                                              */
+/*==============================================================*/
+create table authinfo
+(
+   id                   int not null auto_increment,
+   consultant_id        int,
+   tel                  varchar(20),
+   city                 int,
+   photo                varchar(100),
+   introduce            varchar(511),
+   training             varchar(2047),
+   education            varchar(2047),
+   work_experience      varchar(2047),
+   supervisory_experience varchar(2047),
+   cases                varchar(2047),
+   expert_area          varchar(100),
+   oriented_crowd       varchar(100),
+   create_time          timestamp,
+   update_time          timestamp,
+   primary key (id),
+   key AK_Key_2 (consultant_id)
+);
+
+/*==============================================================*/
+/* Table: city                                                  */
+/*==============================================================*/
+create table city
+(
+   id                   int not null,
+   name                 varchar(10),
+   primary key (id)
+);
+
+/*==============================================================*/
+/* Table: collection                                            */
+/*==============================================================*/
+create table collection
+(
+   id                   int not null,
+   userid               int not null,
+   articleid            int not null,
+   primary key (id)
+);
+
+/*==============================================================*/
+/* Table: comment                                               */
+/*==============================================================*/
+create table comment
+(
+   id                   int not null auto_increment,
+   user_id              int,
+   article_id           int,
+   content              varchar(100),
+   head                 varchar(1000),
+   nickname             varchar(10),
+   anonymous            tinyint,
+   create_time          timestamp,
+   update_time          timestamp,
+   primary key (id),
+   key AK_Key_2 (article_id)
+);
+
+/*==============================================================*/
+/* Table: complaint                                             */
+/*==============================================================*/
+create table complaint
+(
+   id                   int not null auto_increment,
+   user_id              int,
+   content              varchar(200),
+   target               tinyint,
+   status               tinyint,
+   createTime           timestamp,
+   updateTime           timestamp,
+   primary key (id)
+);
+
+/*==============================================================*/
+/* Table: consultant                                            */
+/*==============================================================*/
+create table consultant
+(
+   id                   int not null auto_increment,
+   userid               int,
+   name                 varchar(8),
+   gender               bool,
+   birthday             date,
+   certificate_no       varchar(20),
+   certificate_type     tinyint,
+   certificate_pic1     varchar(1000),
+   certificate_pic2     varchar(1000),
+   tel                  varchar(20),
+   city                 int,
+   photo                varchar(100),
+   introduce            varchar(511),
+   training             varchar(2047),
+   education            varchar(2047),
+   work_experience      varchar(2047),
+   supervisory_experience varchar(2047),
+   cases                varchar(2047),
+   expert_area          varchar(100),
+   oriented_crowd       varchar(100),
+   auth_state           tinyint,
+   interview_price      smallint,
+   video_price          smallint,
+   tel_price            smallint,
+   price                smallint,
+   service_time         int,
+   average_score        tinyint,
+   order_score          int,
+   create_time          timestamp,
+   update_time          timestamp,
+   primary key (id),
+   unique key AK_Key_2 (userid),
+   key AK_Key_3 (city),
+   key AK_Key_4 (price),
+   key AK_Key_5 (service_time),
+   key AK_Key_6 (average_score)
+);
+
+/*==============================================================*/
+/* Table: consultantchange                                      */
+/*==============================================================*/
+create table consultantchange
+(
+   consultant_id        int not null,
+   date                 date not null,
+   period               tinyint not null,
+   avaliable            bool,
+   consult_mode         tinyint,
+   create_time          timestamp,
+   update_time          timestamp,
+   primary key (consultant_id, date, period)
+);
+
+/*==============================================================*/
+/* Table: consultanttemplate                                    */
+/*==============================================================*/
+create table consultanttemplate
+(
+   consultant_id        int not null,
+   weekday              tinyint not null,
+   period               tinyint not null,
+   consult_mode         tinyint,
+   create_time          timestamp,
+   update_time          timestamp,
+   primary key (consultant_id, weekday, period)
+);
+
+/*==============================================================*/
+/* Table: delaytask                                             */
+/*==============================================================*/
+create table delaytask
+(
+   id                   int not null auto_increment,
+   service_id           int,
+   trigger_time         timestamp,
+   state                tinyint,
+   type                 tinyint,
+   create_time          timestamp,
+   update_time          timestamp,
+   primary key (id)
+);
+
+/*==============================================================*/
+/* Table: expertarea                                            */
+/*==============================================================*/
+create table expertarea
+(
+   id                   integer not null auto_increment,
+   parent_id            integer,
+   name                 varchar(10),
+   primary key (id)
+);
+
+/*==============================================================*/
+/* Table: follow                                                */
+/*==============================================================*/
+create table follow
+(
+   id                   int not null,
+   follower_id          int not null,
+   consultant_id        int not null,
+   primary key (id)
+);
+
+/*==============================================================*/
+/* Table: `label`                                               */
+/*==============================================================*/
+create table `label`
+(
+   id                   integer not null auto_increment,
+   name                 varchar(10),
+   parent_id            integer,
+   primary key (id)
+);
+
+/*==============================================================*/
+/* Table: notification                                          */
+/*==============================================================*/
+create table notification
+(
+   id                   int not null auto_increment,
+   user_id              int,
+   sender               int default 0,
+   sender_type          int,
+   content              varchar(200),
+   has_read             tinyint,
+   create_time          timestamp,
+   update_time          timestamp,
+   primary key (id),
+   key AK_Key_2 (user_id)
+);
+
+/*==============================================================*/
+/* Table: `order`                                               */
+/*==============================================================*/
+create table `order`
+(
+   id                   int not null,
+   merchant_id          varchar(32) not null,
+   user_id              int,
+   payment_time         timestamp,
+   amount               int,
+   state                tinyint,
+   payment_mode         tinyint,
+   create_time          timestamp,
+   update_time          timestamp,
+   primary key (id),
+   unique key AK_Key_2 (merchant_id)
+);
+
+/*==============================================================*/
+/* Table: organization                                          */
+/*==============================================================*/
+create table organization
+(
+   id                   int not null auto_increment,
+   name                 varchar(20),
+   address              varchar(50),
+   create_time          timestamp,
+   update_time          timestamp,
+   primary key (id)
+);
+
+/*==============================================================*/
+/* Table: orientedcrowd                                         */
+/*==============================================================*/
+create table orientedcrowd
+(
+   id                   int not null auto_increment,
+   name                 varchar(10),
+   primary key (id)
+);
+
+/*==============================================================*/
+/* Table: palcetemplate                                         */
+/*==============================================================*/
+create table palcetemplate
+(
+   id                   int not null auto_increment,
+   room_id              int,
+   weekday              tinyint,
+   period               tinyint,
+   create_time          timestamp,
+   update_time          timestamp,
+   primary key (id),
+   key AK_Key_2 (room_id)
+);
+
+/*==============================================================*/
+/* Table: pastservice                                           */
+/*==============================================================*/
+create table pastservice
+(
+   id                   int not null,
+   consultant_id        int,
+   date                 timestamp,
+   period               tinyint,
+   consult_type         tinyint,
+   price                int,
+   customer_tel         varchar(20),
+   customer_name        varchar(5),
+   problem              varchar(200),
+   customer_gender      bool,
+   consultant_name      varchar(5),
+   place                varchar(100),
+   state                tinyint,
+   create_time          timestamp,
+   update_time          timestamp,
+   primary key (id),
+   unique key AK_Key_2 (consultant_id, date, period)
+);
+
+/*==============================================================*/
+/* Table: placechange                                           */
+/*==============================================================*/
+create table placechange
+(
+   id                   int not null auto_increment,
+   room_id              int,
+   date                 date,
+   period               tinyint,
+   avaliable            tinyint,
+   create_time          timestamp,
+   update_time          timestamp,
+   primary key (id),
+   key AK_Key_2 (room_id)
+);
+
+/*==============================================================*/
+/* Table: placeservice                                          */
+/*==============================================================*/
+create table placeservice
+(
+   id                   int not null auto_increment,
+   service_id           int,
+   room_id              int,
+   date                 date,
+   period               tinyint,
+   price                smallint,
+   create_time          timestamp,
+   update_time          timestamp,
+   primary key (id),
+   unique key AK_Key_2 (room_id, date, period)
+);
+
+/*==============================================================*/
+/* Table: reply                                                 */
+/*==============================================================*/
+create table reply
+(
+   id                   int not null,
+   complaint_id         int,
+   notification_id      int,
+   create_time          timestamp,
+   update_time          timestamp,
+   primary key (id),
+   key AK_Key_2 (complaint_id)
+);
+
+/*==============================================================*/
+/* Table: room                                                  */
+/*==============================================================*/
+create table room
+(
+   id                   int not null,
+   orgenization_id      int,
+   position             varchar(20),
+   price                smallint,
+   capacity             tinyint default 0 comment '不包括咨询师',
+   create_time          timestamp,
+   update_time          timestamp,
+   primary key (id),
+   key AK_Key_2 (orgenization_id)
+);
+
+/*==============================================================*/
+/* Table: service                                               */
+/*==============================================================*/
+create table service
+(
+   id                   int not null,
+   order_id             int,
+   consultant_id        int,
+   date                 timestamp,
+   period               tinyint,
+   consult_type         tinyint,
+   price                int,
+   customer_tel         varchar(20),
+   customer_name        varchar(5),
+   problem              varchar(200),
+   customer_gender      bool,
+   consultant_name      varchar(5),
+   place                varchar(100),
+   state                tinyint,
+   create_time          timestamp,
+   update_time          timestamp,
+   primary key (id),
+   unique key AK_Key_2 (consultant_id, date, period)
+);
+
+/*==============================================================*/
+/* Table: servicetimerange                                      */
+/*==============================================================*/
+create table servicetimerange
+(
+   id                   int not null,
+   name                 varchar(15),
+   low                  int,
+   high                 int,
+   primary key (id)
+);
+
+/*==============================================================*/
+/* Table: staff                                                 */
+/*==============================================================*/
+create table staff
+(
+   id                   int not null,
+   orgnization_id       int not null,
+   account              varchar(20),
+   password             varchar(32),
+   salt                 varchar(32),
+   name                 varchar(10),
+   create_time          timestamp,
+   update_time          timestamp,
+   primary key (id)
+);
+
+/*==============================================================*/
+/* Table: turnover                                              */
+/*==============================================================*/
+create table turnover
+(
+   id                   int not null,
+   商户订单号                varchar(32),
+   amount               int,
+   payment_mode         tinyint,
+   remark               varchar(100),
+   handler              int default 0,
+   create_time          timestamp,
+   update_time          timestamp,
+   primary key (id)
+);
+
+/*==============================================================*/
+/* Table: user                                                  */
+/*==============================================================*/
+create table user
+(
+   id                   int not null auto_increment,
+   nickname             varchar(10),
+   head                 varchar(1000),
+   phone_number         varchar(20),
+   union_id             char(29),
+   gzh_open_id          char(28),
+   emergency_contact    varchar(5),
+   emergency_call       varchar(20),
+   password             varchar(32),
+   salt                 varchar(32),
+   create_time          timestamp,
+   update_time          timestamp,
+   primary key (id),
+   unique key AK_Key_2 (union_id),
+   unique key AK_Key_3 (gzh_open_id)
+);
+
+/*==============================================================*/
+/* Table: wxorder                                               */
+/*==============================================================*/
+create table wxorder
+(
+   id                   varchar(32) not null,
+   merchant_id          varchar(32),
+   payment_deadline     datetime,
+   qrcode_link          varchar(64),
+   prepay_id            varchar(64),
+   create_time          timestamp,
+   update_time          timestamp,
+   primary key (id),
+   key AK_Key_2 (merchant_id)
+);
+

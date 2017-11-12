@@ -1,0 +1,67 @@
+package com.test.test.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import com.base.common.util.SearchConditionUtils;
+import com.base.datatables.domain.DataTablesRequest;
+import com.base.datatables.domain.DataTablesResponse;
+import com.test.test.dao.TestVOMapper;
+import com.test.test.domain.TestVO;
+import com.test.test.domain.TestVOExample;
+
+
+@Service
+public class TestServiceImp implements TestService {
+	@Autowired
+	private TestVOMapper mapper;
+	/**
+	 * 新增
+	 * @param entity
+	 * @return
+	 */
+	@Override
+	public int add(TestVO entity) {
+		return mapper.insertSelective(entity);
+	}
+	/**
+	 * 删除
+	 * @param id
+	 * @return
+	 */
+	@Override
+	public int delete(Integer id) {
+		return mapper.deleteByPrimaryKey(id);
+	}
+	/**
+	 * 修改
+	 * @param entity
+	 * @return
+	 */
+	@Override
+	public int update(TestVO entity) {
+		return mapper.updateByPrimaryKeySelective(entity);
+	}
+	/**
+	 * 查询
+	 * @param id
+	 * @return
+	 */
+	@Override
+	public TestVO get(Integer id) {
+		return mapper.selectByPrimaryKey(id);
+	}
+
+	@Override
+	public DataTablesResponse<TestVO> listByPage(DataTablesRequest request)
+			throws Throwable {
+		TestVOExample example = new TestVOExample();
+		DataTablesResponse<TestVO> response = new DataTablesResponse<TestVO>();
+		SearchConditionUtils.wrapperAndCondition(example, request);// 封装查询条件
+		response.setDraw(request.getDraw());
+		response.setRecordsTotal(mapper.countByExample(example));
+		response.setData(mapper.selectByExample(example));
+		return response;
+		
+	}
+
+}

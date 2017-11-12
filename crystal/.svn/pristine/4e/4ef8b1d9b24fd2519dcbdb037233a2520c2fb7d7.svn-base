@@ -1,0 +1,89 @@
+package com.xuhan.service.controller;
+
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.base.common.domain.CurrentUser;
+import com.base.common.domain.JsonResult;
+import com.base.common.util.ConfigUtil;
+import com.base.datatables.domain.DataTablesRequest;
+import com.base.datatables.domain.DataTablesResponse;
+import com.base.weixin.api.Data;
+import com.base.weixin.api.MessageResult;
+import com.base.weixin.api.TemplateMessage;
+import com.base.weixin.api.WeixinApiExt;
+import com.xuhan.service.domain.ServiceVO;
+import com.xuhan.service.service.ServiceService;
+
+
+@Controller
+@RequestMapping("/service")
+public class ServiceController {
+	@Autowired
+	private ServiceService service;
+	
+	@RequestMapping("/edit")
+	public String edit(Integer id,ModelMap map){
+		if(id!=null){
+			map.addAttribute("entity",service.get(id));
+		}
+		return "service/edit";//跳转到编辑页面
+	}
+	
+	@RequestMapping("/doEdit")
+	public String doEdit(ServiceVO entity){
+		//CurrentUser user = CurrentUser.getInstance();
+		//entity.setCreatorUserId(user.getUserId());//创建者id
+		if(entity.getId()!=null){//修改
+			service.update(entity);
+		}else{//新增
+			service.add(entity);
+		}
+		return "redirect:/service/list.action";//跳转到列表页面
+	}
+	
+	@RequestMapping("/rest/doDelete")
+	public @ResponseBody JsonResult doDelete(Integer id){
+		JsonResult rs=new JsonResult();
+		service.delete(id);
+		rs.setStatus(1);
+		rs.setMsg("删除成功！");
+		return rs;
+	}
+	
+	@RequestMapping("/list")
+	public String list(){
+		return "service/list";//跳转到分页查询页面
+	}
+	
+	@RequestMapping("/sendmessage")
+	public String sendMessage() throws Exception{	
+		Map<String, Object> data = Data.getData();
+		TemplateMessage templateMessage = Data.getTemplateMessage("oKwkowVse9WJrTbk1MxPOE8fgA3Q",
+				ConfigUtil.getValue("ssoo"), null,null ,data);
+		MessageResult msgRs = WeixinApiExt.sendTemplateMessage(templateMessage);
+		if (msgRs.getErrcode()==0) {
+				return "service/success";
+		}else {
+			return "service/failed";
+		}
+		
+	}
+	/**
+	 * datatable分页查询接口
+	 * @param request
+	 * @return
+	 * @throws Throwable
+	 */
+	@RequestMapping("/rest/doSearch")
+	public @ResponseBody DataTablesResponse<ServiceVO> pageSearch(
+			@RequestBody DataTablesRequest request) throws Throwable{
+		return service.listByPage(request);
+	}
+}
