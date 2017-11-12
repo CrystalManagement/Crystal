@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.crystal.scroe.dao.ScroeVOMapper" >
+  <resultMap id="BaseResultMap" type="com.crystal.scroe.domain.ScroeVO" >
+    <id column="scoreID" property="scoreid" jdbcType="INTEGER" />
+    <result column="scorename" property="scorename" jdbcType="VARCHAR" />
+    <result column="pages" property="pages" jdbcType="INTEGER" />
+    <result column="purchasedate" property="purchasedate" jdbcType="DATE" />
+    <result column="state" property="state" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    scoreID, scorename, pages, purchasedate, state
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.crystal.scroe.domain.ScroeVOExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from scroe
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null" >
+      <if test="offset != null" >
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null" >
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from scroe
+    where scoreID = #{scoreid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from scroe
+    where scoreID = #{scoreid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.crystal.scroe.domain.ScroeVOExample" >
+    delete from scroe
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.crystal.scroe.domain.ScroeVO" useGeneratedKeys="true" keyProperty="id" >
+    insert into scroe (scoreID, scorename, pages, 
+      purchasedate, state)
+    values (#{scoreid,jdbcType=INTEGER}, #{scorename,jdbcType=VARCHAR}, #{pages,jdbcType=INTEGER}, 
+      #{purchasedate,jdbcType=DATE}, #{state,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.crystal.scroe.domain.ScroeVO" useGeneratedKeys="true" keyProperty="id" >
+    insert into scroe
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="scoreid != null" >
+        scoreID,
+      </if>
+      <if test="scorename != null" >
+        scorename,
+      </if>
+      <if test="pages != null" >
+        pages,
+      </if>
+      <if test="purchasedate != null" >
+        purchasedate,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="scoreid != null" >
+        #{scoreid,jdbcType=INTEGER},
+      </if>
+      <if test="scorename != null" >
+        #{scorename,jdbcType=VARCHAR},
+      </if>
+      <if test="pages != null" >
+        #{pages,jdbcType=INTEGER},
+      </if>
+      <if test="purchasedate != null" >
+        #{purchasedate,jdbcType=DATE},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.crystal.scroe.domain.ScroeVOExample" resultType="java.lang.Integer" >
+    select count(*) from scroe
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update scroe
+    <set >
+      <if test="record.scoreid != null" >
+        scoreID = #{record.scoreid,jdbcType=INTEGER},
+      </if>
+      <if test="record.scorename != null" >
+        scorename = #{record.scorename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pages != null" >
+        pages = #{record.pages,jdbcType=INTEGER},
+      </if>
+      <if test="record.purchasedate != null" >
+        purchasedate = #{record.purchasedate,jdbcType=DATE},
+      </if>
+      <if test="record.state != null" >
+        state = #{record.state,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update scroe
+    set scoreID = #{record.scoreid,jdbcType=INTEGER},
+      scorename = #{record.scorename,jdbcType=VARCHAR},
+      pages = #{record.pages,jdbcType=INTEGER},
+      purchasedate = #{record.purchasedate,jdbcType=DATE},
+      state = #{record.state,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.crystal.scroe.domain.ScroeVO" >
+    update scroe
+    <set >
+      <if test="scorename != null" >
+        scorename = #{scorename,jdbcType=VARCHAR},
+      </if>
+      <if test="pages != null" >
+        pages = #{pages,jdbcType=INTEGER},
+      </if>
+      <if test="purchasedate != null" >
+        purchasedate = #{purchasedate,jdbcType=DATE},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where scoreID = #{scoreid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.crystal.scroe.domain.ScroeVO" >
+    update scroe
+    set scorename = #{scorename,jdbcType=VARCHAR},
+      pages = #{pages,jdbcType=INTEGER},
+      purchasedate = #{purchasedate,jdbcType=DATE},
+      state = #{state,jdbcType=VARCHAR}
+    where scoreID = #{scoreid,jdbcType=INTEGER}
+  </update>
+</mapper>

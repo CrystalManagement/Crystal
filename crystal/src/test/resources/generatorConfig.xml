@@ -33,21 +33,21 @@
 		</jdbcConnection>
 
 		<!-- model的配置 -->
-		<javaModelGenerator targetPackage="com.crystal.member.domain"
+		<javaModelGenerator targetPackage="com.crystal.scroe.domain"
 			targetProject="src/main/java">
 			<property name="enableSubPackages" value="true" />
 			<property name="trimStrings" value="true" />
 		</javaModelGenerator>
 
 		<!-- mybatis的xml的配置 --> 	
-		<sqlMapGenerator targetPackage="com.crystal.member.dao"
+		<sqlMapGenerator targetPackage="com.crystal.scroe.dao"
 			targetProject="src/main/java">
 			<property name="enableSubPackages" value="true" />
 		</sqlMapGenerator>
 
 		<!-- mapper的配置 -->
 		<javaClientGenerator type="XMLMAPPER"
-							 targetPackage="com.crystal.member.dao" targetProject="src/main/java">
+							 targetPackage="com.crystal.scroe.dao" targetProject="src/main/java">
 			<property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
 		
